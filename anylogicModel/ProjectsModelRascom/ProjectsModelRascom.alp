@@ -131,7 +131,7 @@
 					<Id>1683888617755</Id>
 					<Name><![CDATA[workDone]]></Name>
 					<Unit>чел/час</Unit> 
-					<X>750</X><Y>410</Y>
+					<X>840</X><Y>410</Y>
 					<Label><X>-25</X><Y>-55</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -197,18 +197,18 @@
 					<Name><![CDATA[workProcess]]></Name>
 					<Unit>чел/час</Unit> 
 					<X>130</X><Y>410</Y>
-					<Label><X>0</X><Y>-20</Y></Label>
+					<Label><X>-30</X><Y>-20</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SourceId="1683887493618" TargetId="1683888617755" External="false" Constant="false" Array="false">
-						<Formula><![CDATA[(1-isReady)*quality*employees]]></Formula>
+						<Formula><![CDATA[(1-isReady)*quality*employees*(1-isCorrectingMistakes*mistakesNum)]]></Formula>
 						<Color/>
 						<ValveIndex>1</ValveIndex>
 						<Points>
 							<Point><X>0</X><Y>0</Y></Point>
-							<Point><X>210</X><Y>0</Y></Point>
-							<Point><X>620</X><Y>0</Y></Point>
+							<Point><X>370</X><Y>0</Y></Point>
+							<Point><X>710</X><Y>0</Y></Point>
 						</Points>
 					</Properties>
 				</Variable>
@@ -288,6 +288,25 @@
 						</Points>
 					</Properties>
 				</Variable>
+				<Variable Class="Flow">
+					<Id>1683929584025</Id>
+					<Name><![CDATA[correctMistakes]]></Name>
+					<X>130</X><Y>410</Y>
+					<Label><X>-30</X><Y>-35</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SourceId="1683887493618" TargetId="1683888617755" External="false" Constant="false" Array="false">
+						<Formula><![CDATA[(1-isReady)*quality*employees*(isCorrectingMistakes*mistakesNum)*0.5]]></Formula>
+						<Color/>
+						<ValveIndex>1</ValveIndex>
+						<Points>
+							<Point><X>0</X><Y>0</Y></Point>
+							<Point><X>360</X><Y>140</Y></Point>
+							<Point><X>710</X><Y>0</Y></Point>
+						</Points>
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1683888548631</Id>
 					<Name><![CDATA[workVolInit]]></Name>
@@ -312,7 +331,7 @@
 				<Variable Class="Parameter">
 					<Id>1683889013516</Id>
 					<Name><![CDATA[isReady]]></Name>
-					<X>270</X><Y>380</Y>
+					<X>380</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -357,7 +376,7 @@
 				<Variable Class="Parameter">
 					<Id>1683889811380</Id>
 					<Name><![CDATA[quality]]></Name>
-					<X>270</X><Y>450</Y>
+					<X>450</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -564,6 +583,54 @@
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1683929713926</Id>
+					<Name><![CDATA[isCorrectingMistakes]]></Name>
+					<X>570</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1683929713924</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1683930686896</Id>
+					<Name><![CDATA[mistakesNum]]></Name>
+					<X>570</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1683930686894</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 			</Variables>
 			<Dependences>
 				<Link SourceId="1683888548631" TargetId="1683887493618" Polarity="null">
@@ -584,10 +651,10 @@
 				<Link SourceId="1683889013516" TargetId="1683888636495" Polarity="null">
 					<Height>20.0</Height>
 					<PolarityPosition>0.95</PolarityPosition>
-					<Direction><X>70</X><Y>30</Y></Direction>
+					<Direction><X>120</X><Y>-50</Y></Direction>
 					<Id>1683889218094</Id>
 					<Name><![CDATA[isReady - workProcess]]></Name>
-					<X>270</X><Y>380</Y>
+					<X>380</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -614,10 +681,10 @@
 				<Link SourceId="1683889811380" TargetId="1683888636495" Polarity="null">
 					<Height>20.0</Height>
 					<PolarityPosition>0.95</PolarityPosition>
-					<Direction><X>180</X><Y>-40</Y></Direction>
+					<Direction><X>50</X><Y>-50</Y></Direction>
 					<Id>1683889899588</Id>
 					<Name><![CDATA[quality - workProcess]]></Name>
-					<X>270</X><Y>450</Y>
+					<X>450</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -693,6 +760,156 @@
 					<Id>1683912692295</Id>
 					<Name><![CDATA[vacationValue - moveVacation]]></Name>
 					<X>670</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683889619139" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>80</X><Y>170</Y></Direction>
+					<Id>1683929473592</Id>
+					<Name><![CDATA[employees - ]]></Name>
+					<X>500</X><Y>240</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683889619139" TargetId="1683929584025" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>130</X><Y>270</Y></Direction>
+					<Id>1683929680829</Id>
+					<Name><![CDATA[employees - correctMistakes]]></Name>
+					<X>500</X><Y>240</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683889619139" TargetId="1683929584025" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>130</X><Y>270</Y></Direction>
+					<Id>1683929681831</Id>
+					<Name><![CDATA[employees - correctMistakes]]></Name>
+					<X>500</X><Y>240</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683889013516" TargetId="1683929584025" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>110</X><Y>90</Y></Direction>
+					<Id>1683929683049</Id>
+					<Name><![CDATA[isReady - correctMistakes]]></Name>
+					<X>380</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683889811380" TargetId="1683929584025" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>40</X><Y>90</Y></Direction>
+					<Id>1683929684368</Id>
+					<Name><![CDATA[quality - correctMistakes]]></Name>
+					<X>450</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683929713926" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>20</X><Y>-50</Y></Direction>
+					<Id>1683929811547</Id>
+					<Name><![CDATA[isCorrectingMistakes - ]]></Name>
+					<X>570</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683929713926" TargetId="1683929584025" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-80</X><Y>90</Y></Direction>
+					<Id>1683929830709</Id>
+					<Name><![CDATA[isCorrectingMistakes - correctMistakes]]></Name>
+					<X>570</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683929713926" TargetId="1683888636495" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-70</X><Y>-50</Y></Direction>
+					<Id>1683930401508</Id>
+					<Name><![CDATA[isCorrectingMistakes - workProcess]]></Name>
+					<X>570</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683930686896" TargetId="1683888636495" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-70</X><Y>-70</Y></Direction>
+					<Id>1683930770139</Id>
+					<Name><![CDATA[mistakesNum - workProcess]]></Name>
+					<X>570</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Color/>
+					<LineWidth>1</LineWidth>
+					<Delay>false</Delay>
+				</Link>
+				<Link SourceId="1683930686896" TargetId="1683929584025" Polarity="null">
+					<Height>20.0</Height>
+					<PolarityPosition>0.95</PolarityPosition>
+					<Direction><X>-80</X><Y>70</Y></Direction>
+					<Id>1683930784313</Id>
+					<Name><![CDATA[mistakesNum - correctMistakes]]></Name>
+					<X>570</X><Y>480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -983,7 +1200,13 @@ else{
 }
 
 // Check if mistakes are possible
-]]></Action>
+if(randomTrue(1-quality)){
+	mistakesNum = uniform(0.05, 0.15);
+	isCorrectingMistakes = 1;
+}
+else{
+	isCorrectingMistakes = 0;
+}]]></Action>
 				</Event>
 			</Events>
 			<AgentLinks>
@@ -2061,6 +2284,12 @@ else{
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[planTime]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[isCorrectingMistakes]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[mistakesNum]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
