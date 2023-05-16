@@ -2,8 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import Config
-
-db = SQLAlchemy()
+from manage import db
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -25,6 +24,8 @@ def create_app(config_class=Config):
 
 if __name__ == "__main__":
     app = create_app()
+    with app.app_context():
+        db.create_all()
     app.run()
 
 
