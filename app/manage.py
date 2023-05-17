@@ -18,11 +18,14 @@ class Employee(db.Model):
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    taskname = db.Column(db.String(200), nullable=False)
-    expected_time = db.Column(db.Float, nullable=False)
-    task_hardness = db.Column(db.Integer, nullable=False)
+    taskname = db.Column(db.String(64))
+    expected_time = db.Column(db.Integer)
+    task_hardness = db.Column(db.Integer)
+
+class UserTask(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'))
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
+    employee = db.relationship('Employee', backref='usertasks')
+    task = db.relationship('Task', backref='usertasks')
     time_assigned = db.Column(db.Float, nullable=False, default=0.0)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('tasks', lazy=True))
-    employee_id = db.Column(db.Integer, db.ForeignKey('employee.id'), nullable=False)
-    employee = db.relationship('Employee', backref=db.backref('tasks', lazy=True))

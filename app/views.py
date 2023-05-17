@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from manage import db, User, Employee, Task
-from forms import TaskForm, AssignTaskForm
+from manage import db, User, Employee, Task, UserTask
+from forms import TaskForm, UserTaskForm
 
 main_blueprint = Blueprint('main', __name__)
 
@@ -14,60 +14,52 @@ def home():
 @login_required
 def create_task():
     form = TaskForm()
-
     if form.validate_on_submit():
-        new_task = Task(taskname=form.taskname.data, expected_time=form.expected_time.data, 
-                        task_hardness=form.task_hardness.data, user_id=current_user.id)
-        db.session.add(new_task)
+        task = Task(taskname=form.taskname.data, expected_time=form.expected_time.data, task_hardness=form.task_hardness.data)
+        db.session.add(task)
         db.session.commit()
-        flash('Task created successfully.')
+        flash('Your task is now live!')
         return redirect(url_for('main.home'))
-
     return render_template('create_task.html', form=form)
 
-@main_blueprint.route('/edit_task/<int:task_id>', methods=['GET', 'POST'])
+@main_blueprint.route('/edit_task/<id>', methods=['GET', 'POST'])
 @login_required
-def edit_task(task_id):
-    task = Task.query.get(task_id)
+def edit_task(id):
+    task = Task.query.get(id)
+    if task is None:
+        flash('Task not found.')
+        return redirect(url_for('main.index'))
     form = TaskForm(obj=task)
-
     if form.validate_on_submit():
-        form.populate_obj(task)
+        task.taskname = form.taskname.data
+        task.expected_time = form.expected_time.data
+        task.task_hardness = form.task_hardness.data
         db.session.commit()
-        flash('Task updated successfully.')
+        flash('The task has been updated.')
         return redirect(url_for('main.home'))
-
     return render_template('edit_task.html', form=form)
 
-@main_blueprint.route('/delete_task/<int:task_id>', methods=['POST'])
+@main_blueprint.route('/delete_task/<id>', methods=['GET', 'POST'])
 @login_required
-def delete_task(task_id):
-    task = Task.query.get(task_id)
+def delete_task(id):
+    task = Task.query.get(id)
+    if task is None:
+        flash('Task not found.')
+        return redirect(url_for('main.home'))
     db.session.delete(task)
     db.session.commit()
-    flash('Task deleted successfully.')
+    flash('The task has been deleted.')
     return redirect(url_for('main.home'))
 
-@main_blueprint.route('/assign_task/<int:task_id>/<int:employee_id>', methods=['POST'])
+@main_blueprint.route('/assign_task', methods=['GET', 'POST'])
 @login_required
-def assign_task(task_id, employee_id):
-    task = Task.query.get(task_id)
-    employee = Employee.query.get(employee_id)
-    form = AssignTaskForm()
-
+def assign_task():
+    form = UserTaskForm()
     if form.validate_on_submit():
-        time_assigned = form.time_assigned.data
-
-        if employee.time_available < time_assigned:
-            flash('The assigned time exceeds the employee\'s available time.')
-            return redirect(url_for('main.home'))
-
-        task.employee_id = employee_id
-        task.time_assigned = time_assigned
-        employee.time_available -= time_assigned
+        usertask = UserTask(employee_id=form.employee_id.data, task_id=form.task_id.data, time_assigned=form.time_assigned.data)
+        db.session.add(usertask)
         db.session.commit()
-        flash('Task assigned successfully.')
+        flash('The task has been assigned!')
         return redirect(url_for('main.home'))
-
-    return render_template('assign_task.html', form=form, task=task, employee=employee)
+    return render_template('assign_task.html', form=form)
 

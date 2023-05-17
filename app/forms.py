@@ -26,6 +26,11 @@ class TaskForm(FlaskForm):
     task_hardness = IntegerField('Task Hardness', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-class AssignTaskForm(FlaskForm):
-    time_assigned = IntegerField('Time Assigned', validators=[DataRequired()])
-    submit = SubmitField('Assign')
+class UserTaskForm(FlaskForm):
+    employee_id = IntegerField('Employee ID', validators=[DataRequired()])
+    task_id = IntegerField('Task ID', validators=[DataRequired()])
+    time_assigned = IntegerField('Task Assigned', validators=[DataRequired()])
+    submit = SubmitField('Assign Task')
+# class AssignTaskForm(FlaskForm):
+#     time_assigned = IntegerField('Time Assigned', validators=[DataRequired()])
+#     submit = SubmitField('Assign')
