@@ -28,7 +28,7 @@ def edit_task(id):
     task = Task.query.get(id)
     if task is None:
         flash('Task not found.')
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.home'))
     form = TaskForm(obj=task)
     if form.validate_on_submit():
         task.taskname = form.taskname.data
