@@ -3,14 +3,12 @@
 {% block content %}
 <h1>Task Managing Tool</h1>
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class="flashes">
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
 {% endwith %}
 
 {% if current_user.is_authenticated %}
@@ -20,21 +18,23 @@
   <p>You are not logged in. <a href="{{ url_for('auth.login') }}">Login</a> or <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
 {% endif %}
 
-<h2>Tasks:</h2>
+{% if current_user.is_authenticated %}
+  <h2>Tasks:</h2>
 
-{% for task in tasks %}
-  <div class="task">
-    <h3>{{ task.taskname }}</h3>
-    <p>Expected Time: {{ task.expected_time }}</p>
-    <p>Task Hardness: {{ task.task_hardness }}</p>
-    {% if current_user.is_authenticated %}
-      <a href="{{ url_for('main.edit_task', task_id=task.id) }}">Edit</a>
-      <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
-        <input type="submit" value="Delete">
-      </form>
-      <!-- Here should be logic for assigning tasks to employees -->
-    {% endif %}
-  </div>
-{% endfor %}
+  {% for task in tasks %}
+    <div class="task">
+      <h3>{{ task.taskname }}</h3>
+      <p>Expected Time: {{ task.expected_time }}</p>
+      <p>Task Hardness: {{ task.task_hardness }}</p>
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.edit_task', task_id=task.id) }}">Edit</a>
+        <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
+          <input type="submit" value="Delete">
+        </form>
+        <!-- Here should be logic for assigning tasks to employees -->
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endif %}
 
 {% endblock %}

@@ -15,8 +15,9 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
+                flash(f"Welcome to ISTM tool, {form.username.data}", 'success')
                 return redirect(url_for('main.home'))
-        flash('Invalid username or password')
+        flash('Invalid username or password', 'warning')
     return render_template('login.html', form=form)
 
 @auth_blueprint.route('/signup', methods=['GET', 'POST'])
@@ -27,7 +28,7 @@ def signup():
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        flash(f'New user: {form.username.data} was created!')
+        flash(f'New user: {form.username.data} was created!', 'success')
         return redirect(url_for('auth.login'))
     return render_template('signup.html', form=form)
 
