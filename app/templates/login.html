@@ -35,8 +35,8 @@
                 {% endfor %}
             </p>
             <p>{{ form.remember }} Запомнить меня</p>
-            
-            {{ form.submit(class_="btn btn-outline-primary") }}
+
+            {{ form.submit(class_="btn btn-outline-success") }} <a href="{{ url_for('auth.signup') }}" class="btn btn-outline-primary">Зарегистрироваться</a>
         </form>
 
         <script>

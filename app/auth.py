@@ -9,7 +9,6 @@ auth_blueprint = Blueprint('auth', __name__)
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    # if form.validate_on_submit():
     if request.method == "POST":
         user = User.query.filter_by(username=form.username.data).first()
         if user:
@@ -23,13 +22,17 @@ def login():
 @auth_blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm()
-    if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method='scrypt')
-        new_user = User(username=form.username.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash(f'New user: {form.username.data} was created!', 'success')
-        return redirect(url_for('auth.login'))
+    if request.method == "POST":
+        if form.validate_username(form.username):
+            hashed_password = generate_password_hash(form.password.data, method='scrypt')
+            new_user = User(username=form.username.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash(f'New user: {form.username.data} was created!', 'success')
+            return redirect(url_for('auth.login'))
+        else:
+            flash(f'User: {form.username.data} already exists!', 'warning')
+            return redirect(url_for('auth.signup'))
     return render_template('signup.html', form=form)
 
 @auth_blueprint.route('/logout')
