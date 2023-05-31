@@ -6,6 +6,7 @@ from forms import TaskForm, UserTaskForm
 main_blueprint = Blueprint('main', __name__)
 
 @main_blueprint.route('/')
+@login_required
 def home():
     tasks = Task.query.all()
     return render_template('home.html', tasks=tasks)
