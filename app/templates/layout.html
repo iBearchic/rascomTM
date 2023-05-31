@@ -12,10 +12,10 @@
 
         <div class="sidenavbar">
             {% if current_user.is_authenticated %}
-                <p>Welcome, {{ current_user.username }}! <a href="{{ url_for('auth.logout') }}">Logout</a></p>
-                <a href="{{ url_for('main.create_task') }}">Create Task</a>
+                <a href="{{ url_for('main.create_task') }}">Создать новую задачу</a>
+                <p>Пользователь: {{ current_user.username }} <button id="logout-button" class="btn btn-outline-danger">Выйти</button></p>
             {% else %}
-                <p>You are not logged in. <a href="{{ url_for('auth.login') }}">Login</a> or <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
+                <p>Вход не выполнен. Пожалуйста, <a href="{{ url_for('auth.login') }}">войдите</a> или <a href="{{ url_for('auth.signup') }}">зарегистрируйтесь</a></p>
             {% endif %}
         </div>
 
@@ -24,13 +24,21 @@
         </div>
 
     </div>
-    
+
+    <!-- Таймауты для flash сообщений -->
     <script>
         window.setTimeout(function() {
             $(".alert").fadeTo(500, 0).slideUp(500, function(){
                 $(this).remove(); 
             });
         }, 1500);
+    </script>
+
+    <!-- Контроль выхода из учетной записи -->
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function() {
+            location.href = "{{ url_for('auth.logout') }}";
+        });
     </script>
 </body>
 </html>

@@ -5,11 +5,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <title>Login</title>
+    <title>Вход</title>
 </head>
 <body>
     <div class="container login">
-        <h1>Login</h1>
+        <h1>Вход в учетную запись</h1>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             {% for category, message in messages %}
@@ -34,8 +34,9 @@
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </p>
-            <p>{{ form.remember }} Remember Me</p>
-            <p>{{ form.submit() }}</p>
+            <p>{{ form.remember }} Запомнить меня</p>
+            
+            {{ form.submit(class_="btn btn-outline-primary") }}
         </form>
 
         <script>

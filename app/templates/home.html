@@ -11,30 +11,28 @@
         {% endif %}
 {% endwith %}
 
-<!-- {% if current_user.is_authenticated %}
-  <p>Welcome, {{ current_user.username }}! <a href="{{ url_for('auth.logout') }}">Logout</a></p>
-  <a href="{{ url_for('main.create_task') }}">Create Task</a>
-{% else %}
-  <p>You are not logged in. <a href="{{ url_for('auth.login') }}">Login</a> or <a href="{{ url_for('auth.signup') }}">Sign Up</a></p>
-{% endif %} -->
-
 {% if current_user.is_authenticated %}
-  <h2>Tasks:</h2>
-
-  {% for task in tasks %}
-    <div class="task">
-      <h3>{{ task.taskname }}</h3>
-      <p>Expected Time: {{ task.expected_time }}</p>
-      <p>Task Hardness: {{ task.task_hardness }}</p>
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('main.edit_task', task_id=task.id) }}">Edit</a>
-        <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
-          <input type="submit" value="Delete">
-        </form>
-        <!-- Here should be logic for assigning tasks to employees -->
-      {% endif %}
-    </div>
-  {% endfor %}
+  <h2>Задачи:</h2>
+  {% if tasks %}
+    {% for task in tasks %}
+      <div class="task">
+        <h3>{{ task.taskname }}</h3>
+        <p>Плановое время: {{ task.expected_time }}</p>
+        <p>Степень сложности: {{ task.task_hardness }}</p>
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('main.edit_task', task_id=task.id) }}">Редактировать</a>
+          <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
+            <input type="submit" value="Delete">
+          </form>
+          <!-- Here should be logic for assigning tasks to employees -->
+        {% endif %}
+      </div>
+    {% endfor %}
+   {% else %}
+      <div class="container">
+        <h2> На данный момент нет активных задач</h2>
+      </div>
+   {% endif %}
 {% endif %}
 
 {% endblock %}
