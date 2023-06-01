@@ -1,6 +1,7 @@
 from scipy.optimize import linprog
 import numpy as np
 
+# https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize
 class Optimizer:
 
     def __init__(self):
@@ -15,6 +16,10 @@ class Optimizer:
         return False
     
     def optimize(self):
+        self.work = np.zeros((len(self.tasks), len(self.employees)))
+    
+        # Objective function: Minimize total time
+        c = np.ones(len(self.tasks) * len(self.employees))        
         pass
 
     def showResult(self):
@@ -30,6 +35,7 @@ if __name__ == '__main__':
     for i in range(1,6):
         print(f"Задача {i} сложности: {t.prod[i-1]}")
     
+    print(np.zeros((6, 5)))
     pass
 # # Define the employees' working hours and skills
 # employees = {
