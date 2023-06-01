@@ -6,8 +6,13 @@ class Optimizer:
     def __init__(self):
         self.prod = [[1 + 0.1 * (j-i) for i in range(1,6)] for j in range(1,6)] 
     
-    def prepareData(self):
-        pass
+    def prepareData(self, tasks, employees):
+        self.tasks = [t.to_lst() for t in tasks]
+        self.employees = [e.to_lst() for e in employees]
+
+        if self.tasks and self.employees:
+            return True
+        return False
     
     def optimize(self):
         pass
@@ -15,8 +20,8 @@ class Optimizer:
     def showResult(self):
         pass
 
-    def start(self):
-        self.prepareData()
+    def start(self, tasks, employees):
+        self.prepareData(tasks, employees)
         self.optimize()
         self.showResult()
 
