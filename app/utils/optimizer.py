@@ -4,7 +4,7 @@ import numpy as np
 class Optimizer:
 
     def __init__(self):
-        pass
+        self.prod = [[1 + 0.1 * (j-i) for i in range(1,6)] for j in range(1,6)] 
     
     def prepareData(self):
         pass
@@ -21,6 +21,10 @@ class Optimizer:
         self.showResult()
 
 if __name__ == '__main__':
+    t = Optimizer()
+    for i in range(1,6):
+        print(f"Задача {i} сложности: {t.prod[i-1]}")
+    
     pass
 # # Define the employees' working hours and skills
 # employees = {
