@@ -22,6 +22,7 @@ class RegisterForm(FlaskForm):
         if user:
             return False
         return True
+    
     def validate_key(self, secret_word):
         if secret_word.data == "rascomTeam":
             return True
@@ -33,10 +34,17 @@ class TaskForm(FlaskForm):
     task_hardness = IntegerField('Task Hardness', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class EmployeeForm(FlaskForm):
+    name = StringField('Employee Name', validators=[DataRequired()])
+    time_available = IntegerField('Available Time', validators=[DataRequired()])
+    level = IntegerField('Employee Level', validators=[DataRequired()])
+    salary = IntegerField('Employee Salary', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 class UserTaskForm(FlaskForm):
     employee_id = IntegerField('Employee ID', validators=[DataRequired()])
     task_id = IntegerField('Task ID', validators=[DataRequired()])
-    time_assigned = IntegerField('Task Assigned', validators=[DataRequired()])
+    time_assigned = IntegerField('Time Assigned', validators=[DataRequired()])
     submit = SubmitField('Assign Task')
 # class AssignTaskForm(FlaskForm):
 #     time_assigned = IntegerField('Time Assigned', validators=[DataRequired()])
