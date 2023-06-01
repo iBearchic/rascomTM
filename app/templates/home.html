@@ -12,25 +12,81 @@
 {% endwith %}
 
 {% if current_user.is_authenticated %}
-  <h2>Задачи:</h2>
-
+  <h2>Текущие задачи</h2>
+  <br>
   {% if tasks %}
-    {% for task in tasks %}
-      <div class="task">
-        <h3>{{ task.taskname }}</h3>
-        <p>Плановое время: {{ task.expected_time }}</p>
-        <p>Степень сложности: {{ task.task_hardness }}</p>
-        <a href="{{ url_for('main.edit_task', task_id=task.id) }}">Редактировать</a>
-        <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
-          <input type="submit" value="Delete">
-        </form>
-      </div>
-    {% endfor %}
-   {% else %}
+    <div class="container">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Название</th>
+            <th scope="col">Плановое время</th>
+            <th scope="col">Степень сложности</th>
+            <th scope="col">##</th>
+            <th scope="col">###</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+            <tr>
+              <th scope="row">{{ task.id }}</th>
+              <td>{{ task.taskname }}</td>
+              <td>{{ task.expected_time }}</td>
+              <td>{{ task.task_hardness }}</td>
+              <td>
+                <form action="{{ url_for('main.edit_task', task_id=task.id) }}" method="post">
+                  <input type="submit" class="btn btn-outline-warning" value="Редактировать">
+                </form>
+              </td>
+              <td>
+                <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
+                  <input type="submit" class="btn btn-outline-danger" value="Удалить">
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="container">
+      <h2> На данный момент нет активных задач</h2>
+    </div>
+  {% endif %}
+
+  <h2>Текущие сотрудники</h2>
+  <br>
+  {% if employees %}
+  <div class="container">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Имя</th>
+          <th scope="col">Доступное время</th>
+          <th scope="col">Степень компетенции</th>
+          <th scope="col">Часовой оклад</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in employees %}
+          <tr>
+            <th scope="row">{{ employee.id }}</th>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.time_available }}</td>
+            <td>{{ employee.level }}</td>
+            <td>{{ employee.salary }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>     
+  {% else %}
       <div class="container">
-        <h2> На данный момент нет активных задач</h2>
+        <h2> На данный момент нет активных сотрудников</h2>
       </div>
-   {% endif %}
+  {% endif %}
 
 {% endif %}
 

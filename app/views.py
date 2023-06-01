@@ -9,7 +9,8 @@ main_blueprint = Blueprint('main', __name__)
 @login_required
 def home():
     tasks = Task.query.all()
-    return render_template('home.html', tasks=tasks)
+    employees = Employee.query.all()
+    return render_template('home.html', tasks=tasks, employees=employees)
 
 @main_blueprint.route('/create_task', methods=['GET', 'POST'])
 @login_required
