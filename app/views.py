@@ -15,12 +15,13 @@ def home():
 @login_required
 def create_task():
     form = TaskForm()
-    if form.validate_on_submit():
+    if request.method == "POST":
         task = Task(taskname=form.taskname.data, expected_time=form.expected_time.data, task_hardness=form.task_hardness.data)
         db.session.add(task)
         db.session.commit()
-        flash('Your task is now live!')
+        flash(f'Задача с номером {id} успешно создана!', 'success')
         return redirect(url_for('main.home'))
+
     return render_template('create_task.html', form=form)
 
 @main_blueprint.route('/edit_task/<task_id>', methods=['GET', 'POST'])
@@ -28,15 +29,16 @@ def create_task():
 def edit_task(id):
     task = Task.query.get(id)
     if task is None:
-        flash('Task not found.')
+        flash(f'Задача с номером {id} не найдена', 'danger')
         return redirect(url_for('main.home'))
+    
     form = TaskForm(obj=task)
-    if form.validate_on_submit():
+    if request.method == "POST":
         task.taskname = form.taskname.data
         task.expected_time = form.expected_time.data
         task.task_hardness = form.task_hardness.data
         db.session.commit()
-        flash('The task has been updated.')
+        flash(f'Задача с номером {id} успешно обновлена', 'success')
         return redirect(url_for('main.home'))
     return render_template('edit_task.html', form=form)
 
@@ -45,11 +47,12 @@ def edit_task(id):
 def delete_task(id):
     task = Task.query.get(id)
     if task is None:
-        flash('Task not found.')
+        flash(f'Задача с номером {id} не найдена', 'danger')
         return redirect(url_for('main.home'))
+    
     db.session.delete(task)
     db.session.commit()
-    flash('The task has been deleted.')
+    flash(f'Задача с номером {id} успешно удалена', 'success')
     return redirect(url_for('main.home'))
 
 # @main_blueprint.route('/assign_task', methods=['GET', 'POST'])
