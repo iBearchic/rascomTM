@@ -40,6 +40,7 @@ def edit_task(id):
         db.session.commit()
         flash(f'Задача с номером {id} успешно обновлена', 'success')
         return redirect(url_for('main.home'))
+    
     return render_template('edit_task.html', form=form)
 
 @main_blueprint.route('/delete_task/<task_id>', methods=['GET', 'POST'])
