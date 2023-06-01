@@ -54,13 +54,19 @@ class Optimizer:
               method="revised simplex")
         print(opt)
 
-    def showResult(self):
-        pass
+        return opt
+
+    def showResult(self, res):
+        if res.status:
+            print("Было найдено оптимальное решение")
+        else:
+            print("Не было найдено оптимальное решение")
+        
 
     def start(self, tasks, employees, mode="time"):
         if self.prepareData(tasks, employees):
-            self.optimize(mode=mode)
-            self.showResult()
+            res = self.optimize(mode=mode)
+            self.showResult(res)
 
 if __name__ == '__main__':
     t = Optimizer()
