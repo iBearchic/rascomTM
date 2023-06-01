@@ -24,7 +24,6 @@
           <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
             <input type="submit" value="Delete">
           </form>
-          <!-- Here should be logic for assigning tasks to employees -->
         {% endif %}
       </div>
     {% endfor %}

@@ -23,7 +23,7 @@ def create_task():
         return redirect(url_for('main.home'))
     return render_template('create_task.html', form=form)
 
-@main_blueprint.route('/edit_task/<id>', methods=['GET', 'POST'])
+@main_blueprint.route('/edit_task/<task_id>', methods=['GET', 'POST'])
 @login_required
 def edit_task(id):
     task = Task.query.get(id)
@@ -40,7 +40,7 @@ def edit_task(id):
         return redirect(url_for('main.home'))
     return render_template('edit_task.html', form=form)
 
-@main_blueprint.route('/delete_task/<id>', methods=['GET', 'POST'])
+@main_blueprint.route('/delete_task/<task_id>', methods=['GET', 'POST'])
 @login_required
 def delete_task(id):
     task = Task.query.get(id)
@@ -52,15 +52,15 @@ def delete_task(id):
     flash('The task has been deleted.')
     return redirect(url_for('main.home'))
 
-@main_blueprint.route('/assign_task', methods=['GET', 'POST'])
-@login_required
-def assign_task():
-    form = UserTaskForm()
-    if form.validate_on_submit():
-        usertask = UserTask(employee_id=form.employee_id.data, task_id=form.task_id.data, time_assigned=form.time_assigned.data)
-        db.session.add(usertask)
-        db.session.commit()
-        flash('The task has been assigned!')
-        return redirect(url_for('main.home'))
-    return render_template('assign_task.html', form=form)
+# @main_blueprint.route('/assign_task', methods=['GET', 'POST'])
+# @login_required
+# def assign_task():
+#     form = UserTaskForm()
+#     if form.validate_on_submit():
+#         usertask = UserTask(employee_id=form.employee_id.data, task_id=form.task_id.data, time_assigned=form.time_assigned.data)
+#         db.session.add(usertask)
+#         db.session.commit()
+#         flash('The task has been assigned!')
+#         return redirect(url_for('main.home'))
+#     return render_template('assign_task.html', form=form)
 
