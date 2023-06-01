@@ -14,7 +14,7 @@ class Optimizer:
             return True
         return False
     
-    def optimize(self, mode="time"):
+    def optimize(self, mode="time", solver="highs"):
         n = len(self.employees)
         m = len(self.tasks)
         # Целевая функция: минимизация времени или затра на выполнение проекта
@@ -51,7 +51,7 @@ class Optimizer:
         print("Результат:")
         opt = linprog(c=obj, A_ub=lhs_ineq, b_ub=rhs_ineq,
               A_eq=lhs_eq, b_eq=rhs_eq, bounds=bnd,
-              method="highs")
+              method=solver)
         print(opt)
 
         # Итоговые сроки реализации
@@ -79,8 +79,16 @@ if __name__ == '__main__':
 
     t.employees = [[1, 2, 5, 2], [2, 2, 4, 2], [3, 1, 3, 5]]
     t.tasks = [[1, 1, 1], [2, 2, 2], [3, 1, 3], [4, 3, 4]]
+
+    print("HIGHS:")
     t.optimize()
-    t.optimize(mode="cost")
+
+    print("HIGHS Dual Simplex:")
+    t.optimize(solver="highs-ds")
+
+    print("HIGHS Inner Point:")
+    t.optimize(solver="highs-ipm")
+    
     
     
 
