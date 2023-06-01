@@ -54,6 +54,10 @@ class Optimizer:
               method="revised simplex")
         print(opt)
 
+        # Итоговые сроки реализации
+        print(f"Плановые сроки: {sum([task[2] for task in self.tasks])}")
+        print(f"Сроки оптимального плана: {sum(opt.x)}")
+
         return opt
 
     def showResult(self, res):
