@@ -1,7 +1,6 @@
 from scipy.optimize import linprog
 import numpy as np
 
-# https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html#scipy.optimize.minimize
 class Optimizer:
 
     def __init__(self):
@@ -15,60 +14,65 @@ class Optimizer:
             return True
         return False
     
-    def optimize(self):
-        self.work = np.zeros((len(self.tasks), len(self.employees)))
-    
-        # Objective function: Minimize total time
-        c = np.ones(len(self.tasks) * len(self.employees))        
+    def optimize(self, mode="time"):
+        n = len(self.employees)
+        m = len(self.tasks)
+        # Целевая функция: минимизация времени или затра на выполнение проекта
+        # where work_ji <-> j = pos // n, i = pos % n
+        if mode == "time":
+            obj = np.ones(m * n)  
+        elif mode == "cost":
+            obj = np.array([self.employees[k%n][3] for k in range(m * n)])
+
+        # Ограничения-неравенства, отражающие допутимые лимиты вовлеченности сотрудников
+        print("Ограничения-неравенства")
+        # Левая часть
+        lhs_ineq = np.array([[1 if k % n == i else 0 for k in range(m * n)] for i in range(n)])  
+        print(lhs_ineq)
+        # Правая часть 
+        rhs_ineq = np.array([self.employees[i][2] for i in range(n)])
+        print(rhs_ineq)
+
+        # Ограничения-равенства, отражающие завершенность каждой из задач 
+        print("Ограничения-равенства")
+        # Левая часть
+        lhs_eq = np.array([[self.prod[self.tasks[k//n][1]][self.employees[k%n][1]] if k // n == j else 0 for k in range(m * n)] for j in range(m)])
+        print(lhs_eq) 
+        # Правая часть 
+        rhs_eq = np.array([self.tasks[j][2] for j in range(m)])
+        print(rhs_eq)
+        
+        # Естественные ограничения
+        bnd = np.array([(0, float("inf")) for _ in range(m * n)]) 
+        print(bnd)
         pass
+
+        # Оптимизация
+        print("Результат:")
+        opt = linprog(c=obj, A_ub=lhs_ineq, b_ub=rhs_ineq,
+              A_eq=lhs_eq, b_eq=rhs_eq, bounds=bnd,
+              method="revised simplex")
+        print(opt)
 
     def showResult(self):
         pass
 
-    def start(self, tasks, employees):
-        self.prepareData(tasks, employees)
-        self.optimize()
-        self.showResult()
+    def start(self, tasks, employees, mode="time"):
+        if self.prepareData(tasks, employees):
+            self.optimize(mode=mode)
+            self.showResult()
 
 if __name__ == '__main__':
     t = Optimizer()
     for i in range(1,6):
         print(f"Задача {i} сложности: {t.prod[i-1]}")
+
+    t.employees = [[1, 2, 5, 2], [2, 2, 4, 2], [3, 1, 3, 5]]
+    t.tasks = [[1, 1, 1], [2, 2, 2], [3, 1, 3], [4, 3, 4]]
+    t.optimize()
+    t.optimize(mode="cost")
     
-    print(np.zeros((6, 5)))
-    pass
-# # Define the employees' working hours and skills
-# employees = {
-#     '1': (10, 3),
-#     '2': (8, 5),
-#     '3': (6, 1),
-# }
-
-# # Define the tasks' required time and skills
-# tasks = {
-#     'Task1': (3, 1),
-#     'Task2': (4, 1),
-#     'Task3': (2, 1),
-#     'Task4': (1, 3),
-#     'Task5': (3, 5),
-# }
-
-# # Build matrix
-# num_employees = len(employees)
-# num_tasks = len(tasks)
-# A = np.zeros((num_employees, num_tasks))
-# b = np.array([info[0] for info in employees.values()])
-
-# for i, employee in enumerate(employees.values()):
-#     for j, task in enumerate(tasks.values()):
-#         if task[1].issubset(employee[1]):
-#             A[i, j] = task[0]
-
-# # Objective function: Minimize total time
-# c = np.ones(num_tasks)
-
-# # Solve the linear programming problem
-# res = linprog(c, A_ub=-A, b_ub=-b, method='highs')
+    
 
 # # Print the result
 # task_assignment = res.x.reshape(-1, num_tasks)

@@ -17,7 +17,7 @@ class Employee(db.Model):
     salary = db.Column(db.Float, nullable=False)
 
     def to_lst(self):
-        return [self.id, self.name, self.time_available, self.level, self.salary]
+        return [self.id, self.level, self.time_available, self.salary]
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +26,7 @@ class Task(db.Model):
     task_hardness = db.Column(db.Integer)
 
     def to_lst(self):
-        return [self.id, self.taskname, self.expected_time, self.task_hardness]
+        return [self.id, self.task_hardness, self.expected_time]
 
 class UserTask(db.Model):
     id = db.Column(db.Integer, primary_key=True)
