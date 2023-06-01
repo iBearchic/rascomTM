@@ -13,18 +13,17 @@
 
 {% if current_user.is_authenticated %}
   <h2>Задачи:</h2>
+
   {% if tasks %}
     {% for task in tasks %}
       <div class="task">
         <h3>{{ task.taskname }}</h3>
         <p>Плановое время: {{ task.expected_time }}</p>
         <p>Степень сложности: {{ task.task_hardness }}</p>
-        {% if current_user.is_authenticated %}
-          <a href="{{ url_for('main.edit_task', task_id=task.id) }}">Редактировать</a>
-          <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
-            <input type="submit" value="Delete">
-          </form>
-        {% endif %}
+        <a href="{{ url_for('main.edit_task', task_id=task.id) }}">Редактировать</a>
+        <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
+          <input type="submit" value="Delete">
+        </form>
       </div>
     {% endfor %}
    {% else %}
@@ -32,6 +31,7 @@
         <h2> На данный момент нет активных задач</h2>
       </div>
    {% endif %}
+
 {% endif %}
 
 {% endblock %}
