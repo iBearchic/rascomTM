@@ -13,7 +13,12 @@
         <div class="sidenavbar">
             {% if current_user.is_authenticated %}
                 <div class="header">
-                    <a href="{{ url_for('main.create_task') }}">Создать новую задачу</a>
+                    <a href="{{ url_for('main.create_task') }}">
+                        <img src="{{ url_for('static', filename='img/addTask.png') }}" alt="Создать новую задачу">
+                    </a>
+                    <a href="">
+                        <img src="{{ url_for('static', filename='img/addEmployee.png') }}" alt="Добавить нового сотрудника">
+                    </a>
                 </div>
                 <div class="footer">
                     <p>Пользователь: {{ current_user.username }} <button id="logout-button" class="btn btn-outline-danger">Выйти</button></p>

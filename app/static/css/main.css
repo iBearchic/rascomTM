@@ -6,10 +6,26 @@
     flex: 1; 
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     height: 100vh;
 }
 
+.sidenavbar .footer {
+    margin-top: auto;
+}
+
+.sidenavbar .header {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidenavbar .header img{
+    width: 100px;
+    height: 100px;
+    transition: background-color 0.5s ease;
+}
+.sidenavbar .header img:hover{
+    background-color: rgba(0 0, 0, 0.4);
+}
 .content {
     flex: 4;
     display: flex;
