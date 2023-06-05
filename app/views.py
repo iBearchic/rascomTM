@@ -60,7 +60,13 @@ def delete_task(task_id):
 @main_blueprint.route('/optimize/<mode>', methods=['GET', 'POST'])
 @login_required
 def optimize(mode):
-    pass
+    if mode == "time":
+        pass
+    elif mode == "cost":
+        pass
+    else:
+        flash('Что-то пошло не так', 'warning')
+        return redirect(url_for('main.home'))
 
 
 # @main_blueprint.route('/assign_task', methods=['GET', 'POST'])
