@@ -14,7 +14,7 @@ class Optimizer:
             return True
         return False
     
-    def optimize(self, mode="time", solver="highs"):
+    def optimize(self, mode="time", solver="highs-ipm"):
         n = len(self.employees)
         m = len(self.tasks)
         # Целевая функция: минимизация времени или затра на выполнение проекта
@@ -61,16 +61,19 @@ class Optimizer:
         return opt
 
     def showResult(self, res):
-        if res.status:
+        if res.status == 0:
             print("Было найдено оптимальное решение")
-        else:
-            print("Не было найдено оптимальное решение")
+            return res.x
+        elif res.status == 1:
+            print("Алгоритм ушел в бесконечные итерации")
+            return None
         
 
     def start(self, tasks, employees, mode="time"):
         if self.prepareData(tasks, employees):
             res = self.optimize(mode=mode)
-            self.showResult(res)
+            return self.showResult(res)
+        return None
 
 if __name__ == '__main__':
     t = Optimizer()
