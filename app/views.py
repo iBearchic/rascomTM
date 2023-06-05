@@ -61,23 +61,13 @@ def delete_task(task_id):
 @login_required
 def optimize(mode):
     if mode == "time":
-        pass
+        flash('time', 'success')
+        return redirect(url_for('main.home'))
     elif mode == "cost":
-        pass
+        flash('cost', 'success')
+        return redirect(url_for('main.home'))
     else:
         flash('Что-то пошло не так', 'warning')
         return redirect(url_for('main.home'))
 
-
-# @main_blueprint.route('/assign_task', methods=['GET', 'POST'])
-# @login_required
-# def assign_task():
-#     form = UserTaskForm()
-#     if form.validate_on_submit():
-#         usertask = UserTask(employee_id=form.employee_id.data, task_id=form.task_id.data, time_assigned=form.time_assigned.data)
-#         db.session.add(usertask)
-#         db.session.commit()
-#         flash('The task has been assigned!')
-#         return redirect(url_for('main.home'))
-#     return render_template('assign_task.html', form=form)
 
