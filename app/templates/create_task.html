@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container login">
+    <h2>Create Task</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.taskname.label }}<br>
+            {{ form.taskname(size=32) }}
+        </p>
+
+        <p>
+            {{ form.expected_time.label }}<br>
+            {{ form.expected_time(size=32) }}
+        </p>
+
+        <p>
+            {{ form.task_hardness.label }}<br>
+            {{ form.task_hardness(size=32) }}
+        </p>
+
+        <p>{{ form.submit(class_="btn btn-outline-success") }}</p>
+    </form>
+</div>
+{% endblock %}

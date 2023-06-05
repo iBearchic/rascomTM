@@ -29,9 +29,9 @@ class RegisterForm(FlaskForm):
         return False
 
 class TaskForm(FlaskForm):
-    taskname = StringField('Task Name', validators=[DataRequired()])
-    expected_time = IntegerField('Expected Time', validators=[DataRequired()])
-    task_hardness = IntegerField('Task Hardness', validators=[DataRequired()])
+    taskname = StringField('Название задачи', validators=[DataRequired()])
+    expected_time = IntegerField('Плановое время', validators=[DataRequired()])
+    task_hardness = IntegerField('Степень сложности', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class EmployeeForm(FlaskForm):
