@@ -36,7 +36,7 @@ class Optimizer:
         # Ограничения-равенства, отражающие завершенность каждой из задач 
         print("Ограничения-равенства")
         # Левая часть
-        lhs_eq = np.array([[self.prod[self.tasks[k//n][1]][self.employees[k%n][1]] if k // n == j else 0 for k in range(m * n)] for j in range(m)])
+        lhs_eq = np.array([[self.prod[self.tasks[k//n][1] - 1][self.employees[k%n][1] - 1] if k // n == j else 0 for k in range(m * n)] for j in range(m)])
         print(lhs_eq) 
         # Правая часть 
         rhs_eq = np.array([self.tasks[j][2] for j in range(m)])
