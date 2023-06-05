@@ -12,10 +12,16 @@
 
         <div class="sidenavbar">
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('main.create_task') }}">Создать новую задачу</a>
-                <p>Пользователь: {{ current_user.username }} <button id="logout-button" class="btn btn-outline-danger">Выйти</button></p>
+                <div class="header">
+                    <a href="{{ url_for('main.create_task') }}">Создать новую задачу</a>
+                </div>
+                <div class="footer">
+                    <p>Пользователь: {{ current_user.username }} <button id="logout-button" class="btn btn-outline-danger">Выйти</button></p>
+                </div>
             {% else %}
-                <p>Вход не выполнен. Пожалуйста, <a href="{{ url_for('auth.login') }}">войдите</a> или <a href="{{ url_for('auth.signup') }}">зарегистрируйтесь</a></p>
+                <div class="header">
+                    <p>Вход не выполнен. Пожалуйста, <a href="{{ url_for('auth.login') }}">войдите</a> или <a href="{{ url_for('auth.signup') }}">зарегистрируйтесь</a></p>
+                </div>
             {% endif %}
         </div>
 
