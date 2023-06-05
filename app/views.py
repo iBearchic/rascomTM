@@ -17,15 +17,11 @@ def home():
 def create_task():
     form = TaskForm()
     if request.method == "POST":
-        if form.task_hardness.data <= 5 and form.task_hardness.data > 0:
-            task = Task(taskname=form.taskname.data, expected_time=form.expected_time.data, task_hardness=form.task_hardness.data)
-            db.session.add(task)
-            db.session.commit()
-            flash(f'Задача "{form.taskname.data}" успешно создана!', 'success')
-            return redirect(url_for('main.home'))
-        else:
-            flash(f'Степень сложности указана неверно!', 'warning')
-            return redirect(url_for('main.create_task'))
+        task = Task(taskname=form.taskname.data, expected_time=form.expected_time.data, task_hardness=form.task_hardness.data)
+        db.session.add(task)
+        db.session.commit()
+        flash(f'Задача "{form.taskname.data}" успешно создана!', 'success')
+        return redirect(url_for('main.home'))
 
     return render_template('create_task.html', form=form)
 

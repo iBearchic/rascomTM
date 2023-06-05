@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, NumberRange
 from manage import User, Employee, Task
 import os
 
@@ -30,16 +30,16 @@ class RegisterForm(FlaskForm):
 
 class TaskForm(FlaskForm):
     taskname = StringField('Название задачи', validators=[DataRequired()])
-    expected_time = IntegerField('Плановое время', validators=[DataRequired()])
-    task_hardness = IntegerField('Степень сложности', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    expected_time = IntegerField('Плановое время', validators=[DataRequired(), NumberRange(min=0)])
+    task_hardness = IntegerField('Степень сложности', validators=[DataRequired(), NumberRange(min=1, max=5)])
+    submit = SubmitField('Создать')
 
 class EmployeeForm(FlaskForm):
-    name = StringField('Employee Name', validators=[DataRequired()])
-    time_available = IntegerField('Available Time', validators=[DataRequired()])
-    level = IntegerField('Employee Level', validators=[DataRequired()])
-    salary = IntegerField('Employee Salary', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    name = StringField('Имя сотрудника', validators=[DataRequired()])
+    time_available = IntegerField('Доступное время', validators=[DataRequired(), NumberRange(min=0)])
+    level = IntegerField('Степень компетенции', validators=[DataRequired(), NumberRange(min=1, max=5)])
+    salary = IntegerField('Зарплата', validators=[DataRequired(), NumberRange(min=0)])
+    submit = SubmitField('Добавить')
 
 class UserTaskForm(FlaskForm):
     employee_id = IntegerField('Employee ID', validators=[DataRequired()])
