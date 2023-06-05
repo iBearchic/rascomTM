@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from manage import db, User, Employee, Task, UserTask
-from forms import TaskForm, UserTaskForm
+from forms import TaskForm, EmployeeForm
 
 main_blueprint = Blueprint('main', __name__)
 
@@ -11,6 +11,52 @@ def home():
     tasks = Task.query.all()
     employees = Employee.query.all()
     return render_template('home.html', tasks=tasks, employees=employees)
+
+@main_blueprint.route('/create_employee', methods=['GET', 'POST'])
+@login_required
+def create_employee():
+    form = EmployeeForm()
+    if request.method == "POST":
+        employee = Employee(name=form.name.data, time_available=form.time_available.data, level=form.level.data, salary=form.salary.data)
+        db.session.add(employee)
+        db.session.commit()
+        flash(f'Сотрудник "{form.name.data}" успешно добавлен!', 'success')
+        return redirect(url_for('main.home'))
+
+    return render_template('create_employee.html', form=form)
+
+@main_blueprint.route('/edit_employee/<employee_id>', methods=['GET', 'POST'])
+@login_required
+def edit_employee(employee_id):
+    employee = Employee.query.get(employee_id)
+    if employee is None:
+        flash(f'Сотрудник с номером {employee_id} не найден', 'danger')
+        return redirect(url_for('main.home'))
+    
+    form = EmployeeForm(obj=employee)
+    if request.method == "POST":
+        employee.name = form.name.data
+        employee.time_available = form.time_available.data
+        employee.level = form.level.data
+        employee.salary = form.salary.data
+        db.session.commit()
+        flash(f'Сотрудник "{form.name.data}" успешно обновлен', 'success')
+        return redirect(url_for('main.home'))
+    
+    return render_template('edit_employee.html', form=form)
+
+@main_blueprint.route('/delete_employee/<employee_id>', methods=['GET', 'POST'])
+@login_required
+def delete_employee(employee_id):
+    employee = Employee.query.get(employee_id)
+    if employee is None:
+        flash(f'Сотрудник с номером {employee_id} не найден', 'danger')
+        return redirect(url_for('main.home'))
+    
+    db.session.delete(employee)
+    db.session.commit()
+    flash(f'Сотрудник с номером {employee_id} успешно удален', 'success')
+    return redirect(url_for('main.home'))
 
 @main_blueprint.route('/create_task', methods=['GET', 'POST'])
 @login_required

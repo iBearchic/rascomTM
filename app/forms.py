@@ -32,14 +32,14 @@ class TaskForm(FlaskForm):
     taskname = StringField('Название задачи', validators=[DataRequired()])
     expected_time = IntegerField('Плановое время', validators=[DataRequired(), NumberRange(min=0)])
     task_hardness = IntegerField('Степень сложности', validators=[DataRequired(), NumberRange(min=1, max=5)])
-    submit = SubmitField('Создать')
+    submit = SubmitField('Сохранить')
 
 class EmployeeForm(FlaskForm):
     name = StringField('Имя сотрудника', validators=[DataRequired()])
     time_available = IntegerField('Доступное время', validators=[DataRequired(), NumberRange(min=0)])
     level = IntegerField('Степень компетенции', validators=[DataRequired(), NumberRange(min=1, max=5)])
     salary = IntegerField('Зарплата', validators=[DataRequired(), NumberRange(min=0)])
-    submit = SubmitField('Добавить')
+    submit = SubmitField('Сохранить')
 
 class UserTaskForm(FlaskForm):
     employee_id = IntegerField('Employee ID', validators=[DataRequired()])

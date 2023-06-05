@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container login">
+    <h2>Добавить сотрудника</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}
+        </p>
+
+        <p>
+            {{ form.time_available.label }}<br>
+            {{ form.time_available(size=32) }}
+        </p>
+
+        <p>
+            {{ form.level.label }}<br>
+            {{ form.level(size=32) }}
+        </p>
+
+        <p>
+            {{ form.salary.label }}<br>
+            {{ form.salary(size=32) }}
+        </p>
+
+        <p>{{ form.submit(class_="btn btn-outline-success") }}</p>
+    </form>
+</div>
+{% endblock %}
