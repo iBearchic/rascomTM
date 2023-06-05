@@ -63,7 +63,8 @@ class Optimizer:
     def showResult(self, res):
         if res.status == 0:
             print("Было найдено оптимальное решение")
-            return res.x
+            ans = np.array_split(res.x, len(self.tasks))
+            return ans
         elif res.status == 1:
             print("Алгоритм ушел в бесконечные итерации")
             return None

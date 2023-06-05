@@ -122,11 +122,11 @@
         </tr>
       </thead>
       <tbody>
-        {% for task, opt in zip(tasks,optimum) %}
+        {% for index in range(tasks|length) %}
           <tr>
-            <th scope="row">{{ task.taskname }}</th>
-            {% for val in opt %}
-              <td>{{ val }}</td>
+            <th scope="row">{{ tasks[index].taskname }}</th>
+            {% for val in optimum[index] %}
+              <td>{{ val|round(3) }}</td>
             {% endfor %}
           </tr>
         {% endfor %}

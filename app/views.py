@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from manage import db, User, Employee, Task, UserTask
 from forms import TaskForm, EmployeeForm
-
+from utils.optimizer import Optimizer
 main_blueprint = Blueprint('main', __name__)
 
 @main_blueprint.route('/')
@@ -106,12 +106,19 @@ def delete_task(task_id):
 @main_blueprint.route('/optimize/<mode>', methods=['GET', 'POST'])
 @login_required
 def optimize(mode):
+    tasks = Task.query.all()
+    employees = Employee.query.all()
+
     if mode == "time":
-        flash('time', 'success')
-        return redirect(url_for('main.home'))
+        op = Optimizer()
+        res = op.start(tasks, employees, mode)
+        flash('Оптимальный план по срокам построен ниже!', 'success')
+        return render_template('home.html', tasks=tasks, employees=employees, optimum=res)
     elif mode == "cost":
-        flash('cost', 'success')
-        return redirect(url_for('main.home'))
+        op = Optimizer()
+        res = op.start(tasks, employees, mode)
+        flash('Оптимальный план по бюджету построен ниже!', 'success')
+        return render_template('home.html', tasks=tasks, employees=employees, optimum=res)
     else:
         flash('Что-то пошло не так', 'warning')
         return redirect(url_for('main.home'))
