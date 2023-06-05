@@ -123,4 +123,21 @@ def optimize(mode):
         flash('Что-то пошло не так', 'warning')
         return redirect(url_for('main.home'))
 
+@main_blueprint.route('/check', methods=['GET', 'POST'])
+@login_required
+def check():
+    tasks = Task.query.all()
+    employees = Employee.query.all()
+
+    op = Optimizer()
+    op.prepareData(tasks, employees)
+    is_good = op.check()
+
+    if is_good:
+        flash('Текущий состав команды справится с поставленными задачами', 'success')
+        return redirect(url_for('main.home'))
+    else:
+        flash('Текущего состава команды не хватит для реализации всего проекта', 'danger')
+        flash('Добавьте сотрудников или выберете более компетентных', 'warning')
+        return redirect(url_for('main.home'))
 

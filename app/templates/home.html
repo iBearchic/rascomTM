@@ -108,6 +108,9 @@
     <a href="{{ url_for('main.optimize', mode='cost') }}" class="btn btn-outline-success">
       По затратам
     </a>
+    <a href="{{ url_for('main.check') }}" class="btn btn-outline-warning">
+      Проверить ресурсы
+    </a>
   </div>
   <br>
   {% if optimum %}
@@ -126,7 +129,7 @@
           <tr>
             <th scope="row">{{ tasks[index].taskname }}</th>
             {% for val in optimum[index] %}
-              <td>{{ val|round(3) }}</td>
+              <td>{{ val|round(2) }}</td>
             {% endfor %}
           </tr>
         {% endfor %}

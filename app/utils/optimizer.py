@@ -14,6 +14,13 @@ class Optimizer:
             return True
         return False
     
+    def check(self):
+        time_musthave = sum([task[2] for task in self.tasks])
+        worst_time = sum([employee[2] * self.prod[4][employee[1] - 1] for employee in self.employees])
+
+        return worst_time >= time_musthave
+
+
     def optimize(self, mode="time", solver="highs-ipm"):
         n = len(self.employees)
         m = len(self.tasks)
