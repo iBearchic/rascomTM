@@ -19,6 +19,9 @@
                     <a href="">
                         <img src="{{ url_for('static', filename='img/addEmployee.png') }}" alt="Добавить нового сотрудника">
                     </a>
+                    <a href="/">
+                        <img src="{{ url_for('static', filename='img/homeIcon.png') }}" alt="Главный экран">
+                    </a>
                 </div>
                 <div class="footer">
                     <p>Пользователь: {{ current_user.username }} <button id="logout-button" class="btn btn-outline-danger">Выйти</button></p>

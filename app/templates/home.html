@@ -35,9 +35,9 @@
               <td>{{ task.expected_time }}</td>
               <td>{{ task.task_hardness }}</td>
               <td>
-                <form action="{{ url_for('main.edit_task', task_id=task.id) }}" method="post">
-                  <input type="submit" class="btn btn-outline-warning" value="Редактировать">
-                </form>
+                <a href="{{ url_for('main.edit_task', task_id=task.id) }}" class="btn btn-outline-warning">
+                  Редактировать
+                </a>
               </td>
               <td>
                 <form action="{{ url_for('main.delete_task', task_id=task.id) }}" method="post">
@@ -86,6 +86,42 @@
       <div class="container">
         <h2> На данный момент нет активных сотрудников</h2>
       </div>
+  {% endif %}
+
+  <h2>Оптимизация</h2>
+  <div class="container optim">
+    <a href="{{ url_for('main.optimize', mode=time) }}" class="btn btn-outline-success">
+      По срокам
+    </a>
+    <a href="{{ url_for('main.optimize', mode=cost) }}" class="btn btn-outline-success">
+      По затратам
+    </a>
+  </div>
+  <br>
+  {% if optimum %}
+  <div class="container">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          {% for employee in employees %}
+            <th scope="col">{{ employee.name }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for task, opt in zip(tasks,optimum) %}
+          <tr>
+            <th scope="row">{{ task.taskname }}</th>
+            {% for val in opt %}
+              <td>{{ val }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>     
+
   {% endif %}
 
 {% endif %}

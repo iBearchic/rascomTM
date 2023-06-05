@@ -39,7 +39,7 @@ def edit_task(task_id):
         task.expected_time = form.expected_time.data
         task.task_hardness = form.task_hardness.data
         db.session.commit()
-        flash(f'Задача с номером {task_id} успешно обновлена', 'success')
+        flash(f'Задача "{form.taskname.data}" успешно обновлена', 'success')
         return redirect(url_for('main.home'))
     
     return render_template('edit_task.html', form=form)
@@ -56,6 +56,11 @@ def delete_task(task_id):
     db.session.commit()
     flash(f'Задача с номером {task_id} успешно удалена', 'success')
     return redirect(url_for('main.home'))
+
+@main_blueprint.route('/optimize/<mode>', methods=['GET', 'POST'])
+@login_required
+def optimize(mode):
+    pass
 
 
 # @main_blueprint.route('/assign_task', methods=['GET', 'POST'])
