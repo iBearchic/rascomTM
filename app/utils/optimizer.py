@@ -45,7 +45,7 @@ class Optimizer:
         # Естественные ограничения
         bnd = np.array([(0, float("inf")) for _ in range(m * n)]) 
         print(bnd)
-        pass
+
 
         # Оптимизация
         print("Результат:")
@@ -60,11 +60,17 @@ class Optimizer:
 
         return opt
 
-    def showResult(self, res):
+    def showResult(self, res, mode):
+        n = len(self.employees)
+        m = len(self.tasks)
         if res.status == 0:
             print("Было найдено оптимальное решение")
-            ans = np.array_split(res.x, len(self.tasks))
-            return ans
+            if mode == "time":
+                ans = np.array_split(res.x, len(self.tasks))
+                return ans, sum(res.x), sum([task[2] for task in self.tasks]), mode
+            elif mode =="cost":
+                ans = np.array_split(res.x, len(self.tasks))
+                return ans, sum(res.x), sum([task[2] for task in self.tasks]), np.dot(np.array([self.employees[k%n][3] for k in range(m * n)]), res.x), mode
         elif res.status == 1:
             print("Алгоритм ушел в бесконечные итерации")
             return None
@@ -73,7 +79,7 @@ class Optimizer:
     def start(self, tasks, employees, mode="time"):
         if self.prepareData(tasks, employees):
             res = self.optimize(mode=mode)
-            return self.showResult(res)
+            return self.showResult(res, mode=mode)
         return None
 
 if __name__ == '__main__':

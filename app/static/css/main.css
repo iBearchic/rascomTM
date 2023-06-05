@@ -2,6 +2,9 @@
     display: flex;
 }
 
+.info {
+    flex-direction: column;
+}
 
 .optim {
     flex-direction: row;

@@ -111,14 +111,14 @@ def optimize(mode):
 
     if mode == "time":
         op = Optimizer()
-        res = op.start(tasks, employees, mode)
+        res, total_time, plan_time, mode_match = op.start(tasks, employees, mode)
         flash('Оптимальный план по срокам построен ниже!', 'success')
-        return render_template('home.html', tasks=tasks, employees=employees, optimum=res)
+        return render_template('home.html', tasks=tasks, employees=employees, optimum=res, total_time=total_time, plan_time=plan_time, mode_match=mode_match)
     elif mode == "cost":
         op = Optimizer()
-        res = op.start(tasks, employees, mode)
+        res, total_time, plan_time, budget, mode_match = op.start(tasks, employees, mode)
         flash('Оптимальный план по бюджету построен ниже!', 'success')
-        return render_template('home.html', tasks=tasks, employees=employees, optimum=res)
+        return render_template('home.html', tasks=tasks, employees=employees, optimum=res, total_time=total_time, plan_time=plan_time, mode_match=mode_match, budget=budget)
     else:
         flash('Что-то пошло не так', 'warning')
         return redirect(url_for('main.home'))

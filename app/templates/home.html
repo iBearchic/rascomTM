@@ -133,7 +133,13 @@
       </tbody>
     </table>
   </div>     
-
+    <div class="container info">
+      <h2>Плановое время: {{ plan_time|round(2) }}</h2> 
+      <h2>Достигнутое время: {{ total_time|round(2) }}</h2> 
+      {% if mode_match == "cost" %}
+      <h2> Затраты: {{ budget|round(2) }}</h2> 
+      {% endif %}
+    </div>
   {% endif %}
 
 {% endif %}
