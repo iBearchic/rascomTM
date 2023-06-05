@@ -98,13 +98,13 @@ if __name__ == '__main__':
     t.tasks = [[1, 1, 1], [2, 2, 2], [3, 1, 3], [4, 3, 4]]
 
     print("HIGHS:")
-    t.optimize()
+    t.optimize(solver="highs")
 
     print("HIGHS Dual Simplex:")
     t.optimize(solver="highs-ds")
 
     print("HIGHS Inner Point:")
-    t.optimize(solver="highs-ipm")
+    t.optimize()
     
     
     
